@@ -34,5 +34,6 @@ public class test
 
 		g.display();
 		g.bfs();
+		g.dfs();
 	}
 }

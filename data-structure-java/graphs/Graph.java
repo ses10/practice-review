@@ -72,6 +72,34 @@ public class Graph
 		System.out.println();
 	}
 
-	
+	/*
+		Prints graph through depth first traversal
+	*/
+	public void dfs()
+	{
+		Stack<Character> stack = new Stack<Character>();
+		boolean[] visited = new boolean[vertices.size()];
 
+		stack.push(vertices.get(0).label);
+		visited[0] = true;
+
+		while(!stack.empty())
+		{
+			char current = stack.pop();
+			Vertex curV = getVertex(current);
+
+			//add all unvistited neighbors to stack 
+			for(int i = 0; i < curV.neighbors.size(); i++)
+			{
+				Vertex neighbor = getVertex(curV.neighbors.get(i));
+				if(visited[vertices.indexOf(neighbor)] == false)
+				{
+					stack.push(neighbor.label);
+					visited[vertices.indexOf(neighbor)] = true;
+				}
+			}
+			System.out.print(current + " ");
+		}	
+		System.out.println();
+	}
 }
