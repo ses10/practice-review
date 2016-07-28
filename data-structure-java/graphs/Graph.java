@@ -39,5 +39,39 @@ public class Graph
 		}
 	}
 
+	/*
+		Prints graph through breadth first traversal
+	*/
+	public void bfs()
+	{
+		LinkedList<Character> queue = new LinkedList<Character>();
+		boolean[] visited = new boolean[vertices.size()];
+
+		char current = vertices.get(0).label;
+		queue.add(current);
+		visited[0] = true;
+
+		while(!queue.isEmpty())
+		{
+			current = queue.remove();
+			Vertex curV = getVertex(current);
+
+			//add all unvisited neighbors to queue
+			for(int i = 0; i < curV.neighbors.size(); i++)
+			{
+				Vertex neighbor = getVertex(curV.neighbors.get(i));
+				if(visited[vertices.indexOf(neighbor)] == false)
+				{
+					queue.add(neighbor.label);
+					visited[vertices.indexOf(neighbor)] = true;
+				}
+			}
+			System.out.print(current + " ");
+		}
+
+		System.out.println();
+	}
+
+	
 
 }
