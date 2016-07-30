@@ -111,15 +111,28 @@ public class Graph {
 		//stack
 		Stack<Node> s = new Stack<Node>();
 		
-		//set all nodes to not visited
+		//push first node
+		Node cur = nodes.get(0);
+		cur.wasVisited = true;
+		s.push(cur);		
+		
+		while(!s.isEmpty())
+		{
+			cur = s.peek();
+			Node n = getUnvisitedAdj(cur); //get an unvisited neighbor of current node
+			
+			if(n == null)
+				s.pop();
+			else
+			{
+				n.wasVisited = true;
+				s.push(n);
+				System.out.println(cur.label + "->" + n.label);
+			}
+		}
+		
 		for(int i = 0; i < nodes.size(); i++)
 		{ nodes.get(i).wasVisited = false; }
-		
-		//push first node
-		Node first = nodes.get(0);
-		s.push(first);		
-		
-		
 	}
 	
 	private class Node
