@@ -3,6 +3,7 @@
  * 
  * Nodes in graph are labeled by numbers
  */
+package dataStructures;
 
 import java.util.*;
 import java.util.LinkedList;
@@ -62,6 +63,54 @@ public class Graph {
 		//stack
 		Stack<Node> s = new Stack<Node>();
 		
+		//push first node
+		Node cur = nodes.get(0);
+		s.push(cur);		
+		System.out.print(cur.label + " ");
+		
+		while(!s.isEmpty())
+		{
+			cur = s.peek();
+			cur.wasVisited = true;
+			
+			//find unvisited neighbor of current node
+			Node n = getUnvisitedAdj(cur);
+			
+			//didnt find neighbor so backtrack to last visited node
+			if(n == null)
+				s.pop();
+			else //found an unvisited neighbor
+			{
+				s.push(n);
+				n.wasVisited = true;
+				System.out.print(n.label + " ");
+			}
+		}
+		System.out.println();		
+		
+		//set all nodes to not visited
+		for(int i = 0; i < nodes.size(); i++)
+		{ nodes.get(i).wasVisited = false; }
+	}
+	
+	/** Given a node n , returns an unvisited adjacent node of n **/
+	private Node getUnvisitedAdj(Node n)
+	{
+		for(Node node: n.adjacents)
+		{
+			if(!node.wasVisited)
+			{ return node; }
+		}
+		return null;
+	}
+	
+	
+	/** Finds the min spanning tree of graph **/
+	public void minSpanTree()
+	{
+		//stack
+		Stack<Node> s = new Stack<Node>();
+		
 		//set all nodes to not visited
 		for(int i = 0; i < nodes.size(); i++)
 		{ nodes.get(i).wasVisited = false; }
@@ -70,23 +119,7 @@ public class Graph {
 		Node first = nodes.get(0);
 		s.push(first);		
 		
-		while(!s.isEmpty())
-		{
-			Node cur = s.pop();
-			cur.wasVisited = true;
-			
-			//find adjacents of current node
-			for(Node n : cur.adjacents)
-			{
-				if(!n.wasVisited)
-				{
-					s.push(n);
-					n.wasVisited = true;
-				}
-			}
-			System.out.print(cur.label + " ");
-		}
-		System.out.println();		
+		
 	}
 	
 	private class Node
