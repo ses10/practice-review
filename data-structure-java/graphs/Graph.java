@@ -31,10 +31,6 @@ public class Graph {
 		//queue
 		LinkedList<Node> q = new LinkedList<Node>();
 		
-		//set all nodes to not visited
-		for(int i = 0; i < nodes.size(); i++)
-		{ nodes.get(i).wasVisited = false; }
-		
 		//enqueue first node
 		Node first = nodes.get(0);
 		q.add(first);
@@ -56,6 +52,10 @@ public class Graph {
 			System.out.print(cur.label + " ");
 		}
 		System.out.println();
+		
+		//set all nodes to not visited
+		for(int i = 0; i < nodes.size(); i++)
+		{ nodes.get(i).wasVisited = false; }
 	}
 	
 	public void dfs()
