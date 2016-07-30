@@ -1,105 +1,106 @@
+/*
+ * Graph implementation using adjacency lists 
+ * 
+ * Nodes in graph are labeled by numbers
+ */
+
 import java.util.*;
+import java.util.LinkedList;
+import java.util.Stack;
 
-/****
-Graph implemented using Adjacency List
-**/
-
-public class Graph
-{
-	public ArrayList<Vertex> vertices = new ArrayList<Vertex>();
-
-		
-	public void addVertex(char label)
-	{ vertices.add(new Vertex(label)); }
-
-	public Vertex getVertex(char label)
+public class Graph {
+	
+	ArrayList<Node> nodes = new ArrayList<Node>();
+	
+	/* Initialize graph with # of nodes starting from 0 to numNode - 1 */
+	public Graph(int numNode)
 	{
-		for(int i = 0; i < vertices.size(); i++)
-		{ 
-			if(vertices.get(i).label == label)
-				return vertices.get(i);
-		}
-		return null;
+		for(int i = 0; i < numNode; i++)
+		{ nodes.add(new Node(i)); }
 	}
-
-	public void addEdge(char vertexFrom, char vertexTo)
-	{ getVertex(vertexFrom).addNeighbor(vertexTo); }
-
-	/* Displays the graph in adjacency list form */
-	public void display()
-	{
-		for(int i = 0; i < vertices.size(); i++)
-		{
-			System.out.print(vertices.get(i).label + ": ");
-			
-			for(int j = 0; j < vertices.get(i).neighbors.size(); j++)
-				System.out.print("->" + vertices.get(i).neighbors.get(j));
-			
-			System.out.println();
-		}
-	}
-
-	/*
-		Prints graph through breadth first traversal
-	*/
+	
+	public void addNode()
+	{ nodes.add(new Node(nodes.size())); }
+	
+	public void addEdge(int n1, int n2)
+	{ nodes.get(n1).adjacents.add(nodes.get(n2)); }
+	
 	public void bfs()
 	{
-		LinkedList<Character> queue = new LinkedList<Character>();
-		boolean[] visited = new boolean[vertices.size()];
-
-		char current = vertices.get(0).label;
-		queue.add(current);
-		visited[0] = true;
-
-		while(!queue.isEmpty())
+		//queue
+		LinkedList<Node> q = new LinkedList<Node>();
+		
+		//set all nodes to not visited
+		for(int i = 0; i < nodes.size(); i++)
+		{ nodes.get(i).wasVisited = false; }
+		
+		//enqueue first node
+		Node first = nodes.get(0);
+		q.add(first);
+		
+		while(!q.isEmpty())
 		{
-			current = queue.remove();
-			Vertex curV = getVertex(current);
-
-			//add all unvisited neighbors to queue
-			for(int i = 0; i < curV.neighbors.size(); i++)
+			Node cur = q.removeFirst();
+			cur.wasVisited = true;
+			
+			//find adjacents of current node
+			for(Node n : cur.adjacents)
 			{
-				Vertex neighbor = getVertex(curV.neighbors.get(i));
-				if(visited[vertices.indexOf(neighbor)] == false)
+				if(!n.wasVisited)
 				{
-					queue.add(neighbor.label);
-					visited[vertices.indexOf(neighbor)] = true;
+					q.addLast(n);
+					n.wasVisited = true;
 				}
 			}
-			System.out.print(current + " ");
+			System.out.print(cur.label + " ");
 		}
-
 		System.out.println();
 	}
-
-	/*
-		Prints graph through depth first traversal
-	*/
+	
 	public void dfs()
 	{
-		Stack<Character> stack = new Stack<Character>();
-		boolean[] visited = new boolean[vertices.size()];
-
-		stack.push(vertices.get(0).label);
-		visited[0] = true;
-
-		while(!stack.empty())
+		//stack
+		Stack<Node> s = new Stack<Node>();
+		
+		//set all nodes to not visited
+		for(int i = 0; i < nodes.size(); i++)
+		{ nodes.get(i).wasVisited = false; }
+		
+		//push first node
+		Node first = nodes.get(0);
+		s.push(first);		
+		
+		while(!s.isEmpty())
 		{
-			char current = stack.pop();
-			Vertex curV = getVertex(current);
-
-			//add all unvistited neighbors to stack 
-			for(int i = 0; i < curV.neighbors.size(); i++)
+			Node cur = s.pop();
+			cur.wasVisited = true;
+			
+			//find adjacents of current node
+			for(Node n : cur.adjacents)
 			{
-				Vertex neighbor = getVertex(curV.neighbors.get(i));
-				if(visited[vertices.indexOf(neighbor)] == false)
+				if(!n.wasVisited)
 				{
-					stack.push(neighbor.label);
-					visited[vertices.indexOf(neighbor)] = true;
+					s.push(n);
+					n.wasVisited = true;
 				}
 			}
-			System.out.print(current + " ");
-		}	
-		System.out.println();
+			System.out.print(cur.label + " ");
+		}
+		System.out.println();		
 	}
+	
+	private class Node
+	{
+		int label;
+		boolean wasVisited;
+		LinkedList<Node> adjacents;
+		
+		public Node(int n)
+		{ 
+			label = n; 
+			wasVisited = false;
+			adjacents = new LinkedList<Node>();
+		}
+	}
+	
 }

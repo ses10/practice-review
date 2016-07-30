@@ -1,38 +1,26 @@
-public class test
+
+public class test 
 {
+	
 	public static void main(String args[])
 	{
-		Graph g = new Graph();
+		Graph g = new Graph(6);
 		
-		g.addVertex('A');
-		g.addVertex('B');
-		g.addVertex('C');
-		g.addVertex('D');
-		g.addVertex('E');
-		g.addVertex('F');
+		g.addEdge(0, 1);
+		g.addEdge(0, 4);
+		g.addEdge(0, 3);
+		
+		g.addEdge(1, 0);
+		
+		g.addEdge(2, 3);
+		
+		g.addEdge(4, 0);
+		
+		g.addEdge(3, 0);
+		g.addEdge(3, 2);
 
-		g.addEdge('A', 'B');
-		g.addEdge('A', 'D');
-		g.addEdge('A', 'C');
-
-		g.addEdge('B', 'A');
-		g.addEdge('B', 'C');
-		g.addEdge('B', 'E');
-
-		g.addEdge('C', 'A');
-		g.addEdge('C', 'B');
-
-		g.addEdge('D', 'A');
-		g.addEdge('D', 'E');
-		g.addEdge('D', 'F');
-
-		g.addEdge('E', 'B');
-		g.addEdge('E', 'D');
-
-		g.addEdge('F', 'D');
-
-
-		g.display();
+		g.addEdge(2, 5);
+		
 		g.bfs();
 		g.dfs();
 	}
